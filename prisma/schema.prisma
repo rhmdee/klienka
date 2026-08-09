@@ -1,0 +1,134 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ==========================================
+// AUTHENTICATION MODELS (Auth.js / Better Auth)
+// ==========================================
+
+model User {
+  id            String    @id @default(uuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relasi Auth
+  accounts Account[]
+  sessions Session[]
+
+  // Relasi Bisnis (Klienka)
+  clients  Client[]
+  projects Project[]
+}
+
+model Account {
+  id                String  @id @default(uuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(uuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// ==========================================
+// BUSINESS LOGIC MODELS (Klienka Mini CRM)
+// ==========================================
+
+model Client {
+  id        String   @id @default(uuid())
+  userId    String
+  name      String
+  email     String?
+  phone     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relasi
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  projects Project[]
+
+  @@index([userId])
+}
+
+enum ProjectStatus {
+  LEAD
+  IN_PROGRESS
+  INVOICED
+  COMPLETED
+}
+
+model Project {
+  id       String        @id @default(uuid())
+  userId   String
+  clientId String
+  title    String
+  amount   Float
+  deadline DateTime?
+  status   ProjectStatus @default(LEAD)
+
+  // Public Access Token untuk Magic Link Klien
+  magicToken String @unique @default(uuid())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relasi
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  client   Client    @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  payments Payment[]
+
+  @@index([userId])
+  @@index([clientId])
+  @@index([magicToken])
+}
+
+model Payment {
+  id        String    @id @default(uuid())
+  projectId String
+  title     String // Contoh: "DP 30%", "Pelunasan"
+  amount    Float
+  paidAt    DateTime? // Jika terisi (not null), maka pembayaran dianggap Lunas
+  isPaid    Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  // Relasi
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId])
+}
