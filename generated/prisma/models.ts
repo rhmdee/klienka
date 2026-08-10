@@ -9,4 +9,10 @@
  * 🟢 You can import this file directly.
  */
 export type * from './models/User.ts'
+export type * from './models/Account.ts'
+export type * from './models/Session.ts'
+export type * from './models/VerificationToken.ts'
+export type * from './models/Client.ts'
+export type * from './models/Project.ts'
+export type * from './models/Payment.ts'
 export type * from './commonInputTypes.ts'
