@@ -7,10 +7,6 @@ datasource db {
   provider = "postgresql"
 }
 
-// ==========================================
-// AUTHENTICATION MODELS (Auth.js / Better Auth)
-// ==========================================
-
 model User {
   id            String    @id @default(uuid())
   name          String
@@ -20,14 +16,10 @@ model User {
   image         String?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
-
-  // Relasi Auth
-  accounts Account[]
-  sessions Session[]
-
-  // Relasi Bisnis (Klienka)
-  clients  Client[]
-  projects Project[]
+  accounts      Account[]
+  clients       Client[]
+  projects      Project[]
+  sessions      Session[]
 }
 
 model Account {
@@ -36,15 +28,14 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.Text
+  id_token          String?
   session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -54,8 +45,7 @@ model Session {
   sessionToken String   @unique
   userId       String
   expires      DateTime
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model VerificationToken {
@@ -66,52 +56,34 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-// ==========================================
-// BUSINESS LOGIC MODELS (Klienka Mini CRM)
-// ==========================================
-
 model Client {
-  id        String   @id @default(uuid())
+  id        String    @id @default(uuid())
   userId    String
   name      String
   email     String?
   phone     String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  // Relasi
-  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  projects Project[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  projects  Project[]
 
   @@index([userId])
 }
 
-enum ProjectStatus {
-  LEAD
-  IN_PROGRESS
-  INVOICED
-  COMPLETED
-}
-
 model Project {
-  id       String        @id @default(uuid())
-  userId   String
-  clientId String
-  title    String
-  amount   Float
-  deadline DateTime?
-  status   ProjectStatus @default(LEAD)
-
-  // Public Access Token untuk Magic Link Klien
-  magicToken String @unique @default(uuid())
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  // Relasi
-  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  client   Client    @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  payments Payment[]
+  id         String        @id @default(uuid())
+  userId     String
+  clientId   String
+  title      String
+  amount     Float
+  deadline   DateTime?
+  status     ProjectStatus @default(LEAD)
+  magicToken String        @unique @default(uuid())
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+  payments   Payment[]
+  client     Client        @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  user       User          @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@index([clientId])
@@ -121,15 +93,20 @@ model Project {
 model Payment {
   id        String    @id @default(uuid())
   projectId String
-  title     String // Contoh: "DP 30%", "Pelunasan"
+  title     String
   amount    Float
-  paidAt    DateTime? // Jika terisi (not null), maka pembayaran dianggap Lunas
+  paidAt    DateTime?
   isPaid    Boolean   @default(false)
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-
-  // Relasi
-  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  project   Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
 
   @@index([projectId])
+}
+
+enum ProjectStatus {
+  LEAD
+  IN_PROGRESS
+  INVOICED
+  COMPLETED
 }

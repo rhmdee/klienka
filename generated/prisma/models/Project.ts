@@ -256,9 +256,9 @@ export type ProjectWhereInput = {
   magicToken?: Prisma.StringFilter<"Project"> | string
   createdAt?: Prisma.DateTimeFilter<"Project"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Project"> | Date | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  client?: Prisma.XOR<Prisma.ClientScalarRelationFilter, Prisma.ClientWhereInput>
   payments?: Prisma.PaymentListRelationFilter
+  client?: Prisma.XOR<Prisma.ClientScalarRelationFilter, Prisma.ClientWhereInput>
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
 export type ProjectOrderByWithRelationInput = {
@@ -272,9 +272,9 @@ export type ProjectOrderByWithRelationInput = {
   magicToken?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  user?: Prisma.UserOrderByWithRelationInput
-  client?: Prisma.ClientOrderByWithRelationInput
   payments?: Prisma.PaymentOrderByRelationAggregateInput
+  client?: Prisma.ClientOrderByWithRelationInput
+  user?: Prisma.UserOrderByWithRelationInput
 }
 
 export type ProjectWhereUniqueInput = Prisma.AtLeast<{
@@ -291,9 +291,9 @@ export type ProjectWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.EnumProjectStatusFilter<"Project"> | $Enums.ProjectStatus
   createdAt?: Prisma.DateTimeFilter<"Project"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Project"> | Date | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  client?: Prisma.XOR<Prisma.ClientScalarRelationFilter, Prisma.ClientWhereInput>
   payments?: Prisma.PaymentListRelationFilter
+  client?: Prisma.XOR<Prisma.ClientScalarRelationFilter, Prisma.ClientWhereInput>
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id" | "magicToken">
 
 export type ProjectOrderByWithAggregationInput = {
@@ -339,9 +339,9 @@ export type ProjectCreateInput = {
   magicToken?: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutProjectsInput
-  client: Prisma.ClientCreateNestedOneWithoutProjectsInput
   payments?: Prisma.PaymentCreateNestedManyWithoutProjectInput
+  client: Prisma.ClientCreateNestedOneWithoutProjectsInput
+  user: Prisma.UserCreateNestedOneWithoutProjectsInput
 }
 
 export type ProjectUncheckedCreateInput = {
@@ -367,9 +367,9 @@ export type ProjectUpdateInput = {
   magicToken?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutProjectsNestedInput
-  client?: Prisma.ClientUpdateOneRequiredWithoutProjectsNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutProjectNestedInput
+  client?: Prisma.ClientUpdateOneRequiredWithoutProjectsNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutProjectsNestedInput
 }
 
 export type ProjectUncheckedUpdateInput = {
@@ -604,8 +604,8 @@ export type ProjectCreateWithoutUserInput = {
   magicToken?: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  client: Prisma.ClientCreateNestedOneWithoutProjectsInput
   payments?: Prisma.PaymentCreateNestedManyWithoutProjectInput
+  client: Prisma.ClientCreateNestedOneWithoutProjectsInput
 }
 
 export type ProjectUncheckedCreateWithoutUserInput = {
@@ -672,8 +672,8 @@ export type ProjectCreateWithoutClientInput = {
   magicToken?: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutProjectsInput
   payments?: Prisma.PaymentCreateNestedManyWithoutProjectInput
+  user: Prisma.UserCreateNestedOneWithoutProjectsInput
 }
 
 export type ProjectUncheckedCreateWithoutClientInput = {
@@ -724,8 +724,8 @@ export type ProjectCreateWithoutPaymentsInput = {
   magicToken?: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutProjectsInput
   client: Prisma.ClientCreateNestedOneWithoutProjectsInput
+  user: Prisma.UserCreateNestedOneWithoutProjectsInput
 }
 
 export type ProjectUncheckedCreateWithoutPaymentsInput = {
@@ -766,8 +766,8 @@ export type ProjectUpdateWithoutPaymentsInput = {
   magicToken?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutProjectsNestedInput
   client?: Prisma.ClientUpdateOneRequiredWithoutProjectsNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutProjectsNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutPaymentsInput = {
@@ -804,8 +804,8 @@ export type ProjectUpdateWithoutUserInput = {
   magicToken?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  client?: Prisma.ClientUpdateOneRequiredWithoutProjectsNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutProjectNestedInput
+  client?: Prisma.ClientUpdateOneRequiredWithoutProjectsNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutUserInput = {
@@ -854,8 +854,8 @@ export type ProjectUpdateWithoutClientInput = {
   magicToken?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutProjectsNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutProjectNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutProjectsNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutClientInput = {
@@ -925,9 +925,9 @@ export type ProjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   magicToken?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  client?: boolean | Prisma.ClientDefaultArgs<ExtArgs>
   payments?: boolean | Prisma.Project$paymentsArgs<ExtArgs>
+  client?: boolean | Prisma.ClientDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.ProjectCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["project"]>
 
@@ -942,8 +942,8 @@ export type ProjectSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   magicToken?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   client?: boolean | Prisma.ClientDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["project"]>
 
 export type ProjectSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -957,8 +957,8 @@ export type ProjectSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   magicToken?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   client?: boolean | Prisma.ClientDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["project"]>
 
 export type ProjectSelectScalar = {
@@ -976,26 +976,26 @@ export type ProjectSelectScalar = {
 
 export type ProjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "clientId" | "title" | "amount" | "deadline" | "status" | "magicToken" | "createdAt" | "updatedAt", ExtArgs["result"]["project"]>
 export type ProjectInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  client?: boolean | Prisma.ClientDefaultArgs<ExtArgs>
   payments?: boolean | Prisma.Project$paymentsArgs<ExtArgs>
+  client?: boolean | Prisma.ClientDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.ProjectCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ProjectIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   client?: boolean | Prisma.ClientDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type ProjectIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   client?: boolean | Prisma.ClientDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
 export type $ProjectPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Project"
   objects: {
-    user: Prisma.$UserPayload<ExtArgs>
-    client: Prisma.$ClientPayload<ExtArgs>
     payments: Prisma.$PaymentPayload<ExtArgs>[]
+    client: Prisma.$ClientPayload<ExtArgs>
+    user: Prisma.$UserPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1402,9 +1402,9 @@ readonly fields: ProjectFieldRefs;
  */
 export interface Prisma__ProjectClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  client<T extends Prisma.ClientDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ClientDefaultArgs<ExtArgs>>): Prisma.Prisma__ClientClient<runtime.Types.Result.GetResult<Prisma.$ClientPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   payments<T extends Prisma.Project$paymentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  client<T extends Prisma.ClientDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ClientDefaultArgs<ExtArgs>>): Prisma.Prisma__ClientClient<runtime.Types.Result.GetResult<Prisma.$ClientPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
