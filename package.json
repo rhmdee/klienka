@@ -15,6 +15,8 @@
 		"@sveltejs/adapter-auto": "^7.0.1",
 		"@sveltejs/kit": "^2.63.0",
 		"@sveltejs/vite-plugin-svelte": "^7.1.2",
+		"@types/bcryptjs": "^3.0.0",
+		"@types/nodemailer": "^8.0.1",
 		"@types/pg": "^8.21.0",
 		"prisma": "^7.9.1",
 		"svelte": "^5.56.1",
@@ -23,10 +25,15 @@
 		"vite": "^8.0.16"
 	},
 	"dependencies": {
+		"@auth/prisma-adapter": "^2.11.3",
+		"@auth/sveltekit": "^1.11.3",
 		"@prisma/adapter-pg": "^7.9.1",
 		"@prisma/client": "^7.9.1",
 		"@types/node": "^26.2.0",
+		"bcryptjs": "^3.0.3",
+		"deep-email-validator": "^0.1.27",
 		"dotenv": "^17.4.2",
+		"nodemailer": "^9.0.5",
 		"pg": "^8.22.0"
 	}
 }
