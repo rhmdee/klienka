@@ -1,3 +1,4 @@
+import bcrypt from "bcryptjs";
 import { PrismaClient } from "../generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 
@@ -8,18 +9,23 @@ const prisma = new PrismaClient({
 async function main() {
   console.log("🌱 Memulai proses seeding data Klienka...");
 
-  // 1. Membersihkan data lama secara berurutan dari relasi terbawah (Cascade Delete Manual)
   // Ini memudahkan junior programmer saat me-reset database lokal berkali-kali.
+
+  // 1. Membersihkan data lama secara berurutan dari relasi terbawah (Cascade Delete Manual)
   await prisma.payment.deleteMany();
   await prisma.project.deleteMany();
   await prisma.client.deleteMany();
   await prisma.user.deleteMany();
+
+  // Default password
+  const hashPass = await bcrypt.hashSync("user.klienka123", 10);
 
   // 2. Membuat Data User (Tim Internal)
   const userDaryadi = await prisma.user.create({
     data: {
       name: "Daryadi",
       email: "daryadi@perkasapilar.com",
+      password: hashPass,
     },
   });
 
@@ -27,6 +33,7 @@ async function main() {
     data: {
       name: "Rahul",
       email: "rahul@perkasapilar.com",
+      password: hashPass,
     },
   });
 
@@ -34,6 +41,7 @@ async function main() {
     data: {
       name: "Dimas",
       email: "dimas@perkasapilar.com",
+      password: hashPass,
     },
   });
   console.log("✅ Data User berhasil dibuat");
